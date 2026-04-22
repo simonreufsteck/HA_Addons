@@ -23,6 +23,11 @@ echo " Hostname : ${HOSTNAME:-$(hostname)}"
 echo " Verbosity: ${VERBOSITY}"
 echo "========================================"
 
+# Enable IP forwarding (required for WireGuard routing)
+echo 1 > /proc/sys/net/ipv4/ip_forward 2>/dev/null \
+    && echo "[netclient] IP forwarding enabled." \
+    || echo "[netclient] WARNING: Could not enable IP forwarding (limited routing capability)."
+
 # Join only if not already registered
 if [ ! -f /etc/netclient/netclient.yml ]; then
     echo "[netclient] Joining network..."

@@ -1,6 +1,6 @@
 FROM alpine:3.20
 
-ARG NETCLIENT_VERSION="0.30.0"
+ARG NETCLIENT_VERSION="1.5.1"
 
 RUN apk add --no-cache \
     bash \

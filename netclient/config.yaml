@@ -1,6 +1,6 @@
 name: "Netmaker Netclient"
 description: "Connects Home Assistant to a Netmaker WireGuard network via enrollment token"
-version: "1.0.0"
+version: "1.5.1"
 slug: "netclient"
 url: "https://github.com/simonreufsteck/HA_Addons"
 arch:
