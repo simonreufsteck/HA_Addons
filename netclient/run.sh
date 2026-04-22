@@ -24,9 +24,13 @@ echo " Verbosity: ${VERBOSITY}"
 echo "========================================"
 
 # Enable IP forwarding (required for WireGuard routing)
-echo 1 > /proc/sys/net/ipv4/ip_forward 2>/dev/null \
-    && echo "[netclient] IP forwarding enabled." \
-    || echo "[netclient] WARNING: Could not enable IP forwarding (limited routing capability)."
+if [ "$(cat /proc/sys/net/ipv4/ip_forward 2>/dev/null)" = "1" ]; then
+    echo "[netclient] IP forwarding already enabled."
+else
+    echo 1 > /proc/sys/net/ipv4/ip_forward 2>/dev/null \
+        && echo "[netclient] IP forwarding enabled." \
+        || echo "[netclient] WARNING: Could not enable IP forwarding."
+fi
 
 # Join only if not already registered
 if [ ! -f /etc/netclient/netclient.yml ]; then
