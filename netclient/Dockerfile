@@ -1,20 +1,21 @@
-FROM gravitl/netclient:v0.30.0
+ARG BUILD_FROM
+FROM $BUILD_FROM
 
-# Installiere bashio für HA-Konfigurationszugriff
-RUN apk add --no-cache bash curl jq
+RUN apk add --no-cache curl jq wireguard-tools iptables ip6tables kmod
 
-# bashio herunterladen (HA Shell-Helper-Bibliothek)
-ARG BASHIO_VERSION="0.16.2"
-RUN curl -Lso /tmp/bashio.tar.gz \
-      "https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz" \
-    && mkdir -p /usr/src/bashio \
-    && tar xzf /tmp/bashio.tar.gz --strip 1 -C /usr/src/bashio \
-    && mv /usr/src/bashio/lib /usr/lib/bashio \
-    && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
-    && rm -rf /tmp/bashio.tar.gz /usr/src/bashio
+ARG NETCLIENT_VERSION="0.30.0"
+RUN ARCH=$(uname -m) && \
+    case "$ARCH" in \
+      x86_64)  NC_ARCH="amd64" ;; \
+      aarch64) NC_ARCH="arm64" ;; \
+      arm*)    NC_ARCH="arm" ;; \
+      *) echo "Unsupported arch: $ARCH" && exit 1 ;; \
+    esac && \
+    curl -fsSL -o /usr/local/bin/netclient \
+      "https://github.com/gravitl/netclient/releases/download/v${NETCLIENT_VERSION}/netclient-linux-${NC_ARCH}" && \
+    chmod +x /usr/local/bin/netclient
 
-# Startskript kopieren
 COPY run.sh /run.sh
-RUN chmod a+x /run.sh
+RUN chmod +x /run.sh
 
-CMD [ "/run.sh" ]
+CMD ["/run.sh"]
