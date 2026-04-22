@@ -11,6 +11,7 @@ privileged:
   - NET_ADMIN
   - SYS_MODULE
   - NET_RAW
+  - SYS_ADMIN
 host_network: true
 options:
   token: ""
