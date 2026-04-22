@@ -23,6 +23,11 @@ echo " Hostname : ${HOSTNAME:-$(hostname)}"
 echo " Verbosity: ${VERBOSITY}"
 echo "========================================"
 
+# Load WireGuard kernel module
+modprobe wireguard 2>/dev/null \
+    && echo "[netclient] WireGuard module loaded." \
+    || echo "[netclient] WireGuard built-in or unavailable, continuing..."
+
 # Enable IP forwarding (required for WireGuard routing)
 if [ "$(cat /proc/sys/net/ipv4/ip_forward 2>/dev/null)" = "1" ]; then
     echo "[netclient] IP forwarding already enabled."
