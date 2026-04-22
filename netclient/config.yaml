@@ -1,0 +1,31 @@
+name: "Netmaker Netclient"
+description: "Verbindet deinen Home Assistant mit einem Netmaker WireGuard-Netzwerk"
+version: "1.0.0"
+slug: "netmaker-netclient"
+url: "https://github.com/gravitl/netclient"
+arch:
+  - amd64
+  - aarch64
+  - armv7
+privileged: true
+host_network: true
+options:
+  token: ""
+  hostname: "homeassistant"
+  endpoint: ""
+  port: 0
+  mtu: 0
+  is_static: false
+  verbosity: 0
+schema:
+  token: "str"
+  hostname: "str?"
+  endpoint: "str?"
+  port: "int(0,65535)?"
+  mtu: "int(0,9000)?"
+  is_static: "bool?"
+  verbosity: "int(0,4)?"
+map:
+  - config:rw
+startup: system
+boot: auto
