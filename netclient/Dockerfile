@@ -1,4 +1,3 @@
-ARG BUILD_FROM
 FROM gravitl/netclient:v0.30.0
 
 # Installiere bashio für HA-Konfigurationszugriff
