@@ -1,5 +1,4 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
+FROM alpine:3.20
 
 ARG NETCLIENT_VERSION="0.30.0"
 
@@ -24,8 +23,7 @@ RUN ARCH="$(uname -m)" && \
     curl -fsSL \
       "https://github.com/gravitl/netclient/releases/download/v${NETCLIENT_VERSION}/netclient-linux-${NC_ARCH}" \
       -o /usr/local/bin/netclient && \
-    chmod +x /usr/local/bin/netclient && \
-    netclient version
+    chmod +x /usr/local/bin/netclient
 
 COPY run.sh /run.sh
 RUN chmod +x /run.sh
